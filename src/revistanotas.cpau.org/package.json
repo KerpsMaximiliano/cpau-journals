@@ -1,0 +1,26 @@
+{
+  "name": "revistanotas.cpau.org",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "npm run rimraf -- bin obj wwwroot/dist",
+    "clean:dist": "npm run rimraf -- wwwroot/dist",
+    "rimraf": "rimraf",
+    "server:dev:hmr": "npm run server:dev -- --inline --hot",
+    "server:dev": "dotnet watch run --server.urls http://0.0.0.0:5002 --environment Development",
+    "server:staging": "dotnet watch run --server.urls http://0.0.0.0:5002 --environment Staging",
+    "server": "yarn server:dev"
+  },
+  "dependencies": {
+    "@types/node": "^7.0.15",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "isomorphic-fetch": "^2.2.1",
+    "isotope-layout": "^3.0.4",
+    "jquery": "^2.2.1",
+    "swiper": "^3.4.2"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.1"
+  }
+}

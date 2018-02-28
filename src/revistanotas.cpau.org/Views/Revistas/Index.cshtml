@@ -1,0 +1,126 @@
+@using CPAU.RevistaNotas
+@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.RevistasViewModels.IndexViewModel
+
+@section css{
+    <!-- Caption CSS -->
+    <link href="~/css/caption.css" rel="stylesheet">
+    <link href="~/css/isotope.css" rel="stylesheet">
+}
+@{
+    var botoneraModel = new BotoneraViewModel { Color1 = null };
+}
+@Html.Partial("_Botonera", botoneraModel)
+
+<!-- HEADER -->
+<header class="intro" style="margin-top:50px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Revistas</h1>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- /HEADER -->
+<!-- CONTENIDO -->
+<article id="content">
+    <div class="container-fluid">
+
+        <!-- Contenido -->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Mixitup -->
+                <div class="container">
+                    <div class="text-center">
+                        <!-- Filtros -->
+                        <ul id="filters" class="clearfix" style="padding-bottom:30px; padding-left:10px;">
+                            <li><h4>Filtros:&nbsp;&nbsp;</h4></li>
+                            <li><a href="#" data-filter="*" class="active">Todos</a></li>
+                            <li><a href="#" data-filter=".rn">Revistas Notas</a></li>
+                            <li><a href="#" data-filter=".ic">CPAU Info</a></li>
+                        </ul>
+                        <!-- /Filtros -->
+                    </div>
+
+                    <!-- Notas -->
+                    <div class="portfolioContenedor" style="padding:0 10px; margin: 0 auto;">
+                        @foreach (var revista in Model.Items)
+                        {
+                            var filters = revista.Tipo == 1 ? "ic" : "rn";
+                            <div style="margin: 5px;" class="portfolio @filters" data-cat="@filters">
+                                @{
+                                    var url = string.IsNullOrEmpty(revista.Url) ? Url.Action("Revista", new { revista.Numero }) : revista.Url;
+                                }
+                                <a class="caption caption-4" href="@url" data-title="@revista.Titulo" data-description="@revista.Descripcion">
+                                    <img src="@Url.Media(revista.ImagenTapa)" width="300" height="409" alt="" />
+                                </a>
+                            </div>
+                                    }
+                    </div>
+                    <!-- /Notas -->
+                </div>
+                <!-- /Mixitup -->
+            </div>
+        </div>
+        <!-- /Contenido -->
+    </div>
+</article>
+<!-- /CONTENIDO -->
+
+@Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer id=\"footer\"",
+    BreadCrumbItems = {
+        new BreadCrumbItem { Caption = "Home", Href = "/" },
+        new BreadCrumbItem { Caption = "Revista", Href = "/revistas" }
+    }
+})
+
+@section scripts
+    {
+    <!-- Isotope -->
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var portfolio = $('.portfolioContenedor');
+            portfolio.imagesLoaded(function () {
+                portfolio.isotope({
+                    filter: '*',
+                    sortBy: 'original-order',
+                    resizable: false,
+                    masonry: {
+                        columnWidth: 10,
+                        isFitWidth: true
+                    },
+                    animationOptions: {
+                        duration: 750,
+                        easing: 'linear',
+                        queue: false
+                    }
+                });
+            });
+
+            $('#filters a')
+                .click(function () {
+                    $('#filters .active').removeClass('active');
+                    $(this).addClass('active');
+
+                    var selector = $(this).attr('data-filter');
+                    $('.portfolioContenedor').isotope({
+                        filter: selector,
+                        sortBy: 'original-order',
+                        animationOptions: {
+                            duration: 750,
+                            easing: 'linear',
+                            queue: false
+                        }
+                    });
+                    return false;
+                });
+        });
+    </script>
+}

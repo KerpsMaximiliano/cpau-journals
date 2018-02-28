@@ -1,0 +1,117 @@
+﻿@using CPAU.RevistaNotas
+@model CPAU.RevistaNotas.Models.FooterViewModel
+<!-- FOOTER -->
+<@Model.TagName>
+    <div class="container-fluid">
+        @if (Model.ShowBreadCrumb)
+        {
+            <!-- Migas de Pan -->
+            <div class="row">
+                <div class="col-lg-12" id="migas">
+                    <ol class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 breadcrumb">
+                        @for (var index = 0; index < Model.BreadCrumbItems.Count; index++)
+                        {
+                            if (index < (Model.BreadCrumbItems.Count - 1))
+                            {
+                                <li><a href="@Model.BreadCrumbItems[index].Href">@Model.BreadCrumbItems[index].Caption</a></li>
+                            }
+                            if (index == Model.BreadCrumbItems.Count - 1)
+                            {
+                                <li class="active">@Model.BreadCrumbItems[index].Caption</li>
+                            }
+                        }
+                    </ol>
+                </div>
+            </div>
+        }
+
+        <!-- Redes -->
+        <div class="row">
+            <div class="col-lg-12" id="redes">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="http://ly.cpau.org/facebook-revistanotas" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+
+                        <a href="http://ly.cpau.org/twitter-revistanotas" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="http://ly.cpau.org/pinterest-revistanotas" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-pinterest fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="http://ly.cpau.org/googleplus-revistanotas" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="http://ly.cpau.org/issuu-revistanotas" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-1x fa-inverse"><img src="/media/revistanotas/issuu.svg" alt="Issuu" /></i>
+                            </span>
+
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <!-- /Redes -->
+        <!-- CPAU -->
+        <div class="row">
+            <div class="col-lg-12" id="cpau">
+                <div>
+                    <a href="http://ly.cpau.org/cpauorg" target="_blank" title="CPAU | Consejo Profesional de Arquitectura y Urbanismo">
+                        <img src="@Url.Media("/revistanotas/cpau.svg")" id="isologo-cpau" alt="CPAU | Consejo Profesional de Arquitectura y Urbanismo" />
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /CPAU -->
+    </div>
+
+    <!-- Back To Top -->
+    <a id="back-to-top" href="#">
+        <i class="font-icon-arrow-simple-up"></i>
+    </a>
+    <!-- End Back to Top -->
+
+</@Model.TagName>
+<!-- /FOOTER -->
+
+@section scripts
+    {
+    <!-- Swiper JS -->
+    <script src="http://idangero.us/swiper/dist/js/swiper.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper('.swiper1', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+            autoplay: 4000
+        });
+    </script>
+}

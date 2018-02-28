@@ -1,0 +1,42 @@
+﻿@using CPAU.RevistaNotas
+@model CPAU.RevistaNotas.Models.BotoneraViewModel
+<!-- BOTONERA -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid" @(!string.IsNullOrEmpty(Model?.Color1) ? "style=background-color:" + Model.Color1 : string.Empty)>
+        <div class="navbar-header page-scroll">
+            <!-- Toogle -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">MENÚ</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!-- /Toogle -->
+            <!-- Logo -->
+            <a class="navbar-brand" href="/" title="NOTAS CPAU">
+                <img src="@Url.Media("revistanotas/notascpau.svg")" alt="NOTAS CPAU" id="isologo" />
+            </a>
+            <!-- /Logo -->
+        </div>
+        <!-- navbar-collapse -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="@Url.Action("Index", "Revistas")">REVISTA</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Notas")">NOTAS</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Cpau")">CPAU</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Contactanos")">CONTÁCTANOS</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /navbar-collapse -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /BOTONERA -->

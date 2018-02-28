@@ -1,0 +1,247 @@
+﻿@using CPAU.RevistaNotas
+@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.RevistasViewModels.RevistaContenidoViewModel
+@section css{
+    @if (!string.IsNullOrEmpty(Model.Style))
+    {
+        <style>@Html.Raw(Model.Style)</style>
+    }
+}
+@{
+    var botoneraModel = new BotoneraViewModel { Color1 = Model.Revista.Color1 };
+}
+
+
+@Html.Partial("_Botonera", botoneraModel)
+
+<!-- HEADER -->
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+            </div>
+        </div>
+    </div>
+</header>
+<!-- /HEADER -->
+<!-- CONTENIDO -->
+<article>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                <!-- Titulo -->
+                <h1>@Model.Contenido.Titulo</h1>
+
+                <!-- Autores -->
+                <h4>
+                    @for (var index = 0; index < Model.Contenido.Autores.Count; index++)
+                    {
+                        var autor = Model.Contenido.Autores[index];
+                        if (index > 0)
+                        {<span>, </span>}<a href="@Url.Action("Autor", "Autores", new { Id = autor.AutorId })" target="_self" class="autores">@autor.Autor.Nombre</a>}
+            </h4>
+
+
+
+            <div id="share">
+                <!-- Fecha -->
+                <!-- #BeginDate format:fcSw1 -->@Model.Contenido.FechaAlta.ToString("D")<!-- #EndDate -->
+                <!-- Comentarios -->
+                &nbsp;|&nbsp;&nbsp;<i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<a href="#disqus_thread"></a>
+
+                <!-- Add This -->
+                <div class="addthis_custom_sharing"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Texto -->
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="texto">
+            @Html.Raw(Model.Contenido.Texto)
+        </div>
+    </div>
+</div>
+</article>
+<!-- /CONTENIDO -->
+<!-- DISQUS -->
+<div class="container-fluid">
+    <div class="row" id="disqus">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div id="disqus_thread"></div>
+            <script>
+                /**
+                * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+                */
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function () { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = '//revistanotascpau.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Por favor, active JavaScript para ver los <a href="https://disqus.com/?ref_noscript" rel="nofollow">comentarios by Disqus.</a></noscript>
+        </div>
+    </div>
+</div>
+<!-- /DISQUS -->
+<!-- Notas Relacionadas-->
+<article>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12" style="margin:50px 0; padding:50px 0 0 0; border-top:solid 1px #ccc;">
+                <!-- Mixitup -->
+                <div class="container">
+                    <div class="text-center">
+                        <h3>Notas Relacionadas</h3>
+                        <p>Descubr&iacute; otros art&iacute;culos relacionados:</p>
+                    </div>
+
+                    <!-- Notas -->
+                    <div class="portfolioContenedor" style="padding:0 10px; margin: 0 auto;">
+                        @foreach (var relacionado in Model.Relacionados)
+                        {
+                            var codigoContenido = relacionado.Contenido.Id + "-" + Utils.SeName(relacionado.Contenido.Titulo);
+                            <div style="margin: 5px;" class="portfolio" data-cat="">
+                                <div class="portfolio-wrapper">
+                                    @{
+                                        var target = string.IsNullOrEmpty(relacionado.Contenido.Url) ? Url.Action("Contenido", new { relacionado.Revista.Numero, codigoContenido }) : relacionado.Contenido.Url;
+                                    }
+                                    <a href="@target" target="@((CPAU.RevistaNotas.Data.UrlTarget)relacionado.Contenido.UrlTarget)">
+                                        <img style="width: 400px; height: 300px;" class="img-gray" src="@Url.Media(relacionado.Contenido.Imagen)" alt="" />
+                                        <div class="label">
+                                            <div class="label-text">
+                                                <span class="text-title">@relacionado.Contenido.Titulo</span>
+                                                <span class="text-category">@string.Join(",", relacionado.Contenido.Autores.Select(x => x.Autor.Nombre))</span>
+                                            </div>
+                                            <div class="label-bg"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!-- /Notas -->
+
+                </div>
+                <!-- /Mixitup -->
+            </div>
+        </div>
+    </div>
+</article>
+<!-- /Notas Relacionadas -->
+
+@Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer",
+    BreadCrumbItems = {
+new BreadCrumbItem { Caption = "Home", Href = "/" },
+new BreadCrumbItem { Caption = "Revista", Href = "/revistas" },
+new BreadCrumbItem { Caption = "# " + Model.Revista.Numero + " - " + Model.Revista.Descripcion, Href = "/revistas/" + Model.Revista.Numero },
+new BreadCrumbItem { Caption = Model.Contenido.Titulo, Href = "/revistas/" + Model.Revista.Numero + "/" + Model.ListIndex }
+}
+})
+
+@section scripts
+    {
+    <!-- Isotope -->
+    <script src="/js/isotope.pkgd.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.portfolioContenedor').isotope({
+                filter: '*',
+                resizable: false,
+                masonry: {
+                    columnWidth: 10,
+                    isFitWidth: true
+                },
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
+                }
+            });
+        });
+    </script>
+
+
+    <!-- Lightbox -->
+    <script src="/js/lightbox/js/lightbox.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#texto img').each(function () {
+                var $this = $(this);
+                var title = $this.prop('alt');
+                if (title) {
+                    var src = $this.attr('src');
+                    var width = $this.width();
+                    var parent = $this.parent();
+                    var float = $this.css('float');
+                    var figure = $('<figure></figure>')
+                        .css('marginLeft', $this.css('marginLeft'))
+                        .css('marginRight', $this.css('marginRight'))
+                        .css('marginTop', $this.css('marginTop'))
+                        .css('marginBottom', $this.css('marginBottom'))
+                        .css('float', float)
+                        .css('width', width);
+                    var div = $('<div></div>');
+                    var wrapper;
+
+                    $this.css('float', 'none');
+
+                    if (!parent.is('a')) {
+                        var a = $('<a href="#"></a>').attr('href', src).attr('data-title', title).attr('data-lightbox', 'album');
+
+                        wrapper = $this.wrap(a).parent();
+                        wrapper = wrapper.wrap(div).parent();
+                        wrapper = wrapper.wrap(figure).parent();
+                    }
+                    else {
+                        wrapper = $this.parent().wrap(div).parent();
+                        wrapper = wrapper.wrap(figure).parent();
+                    }
+
+                    var figcaption = $('<figcaption></figcaption>').text(title);
+                    wrapper.first().append(figcaption);
+                }
+            });
+        });
+    </script>
+    <!-- ADD THIS -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5720ff33ce483e1a"></script>
+
+    <!-- DISQUS -->
+    <script id="dsq-count-scr" src="//revistanotascpau.disqus.com/count.js" async></script>
+
+    <!-- STICKYMOJO -->
+    <script src="/js/stickyMojo.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#sidebar').stickyMojo({ footerID: '#footer', contentID: '#content' });
+
+            $('.ancla').click(function () {
+                var link = $(this);
+                var anchor = link.attr('href');
+                $('html, body').stop().animate({
+                    scrollTop: jQuery(anchor).offset().top
+                }, 2000);
+                return false;
+            });
+        });
+    </script>
+}

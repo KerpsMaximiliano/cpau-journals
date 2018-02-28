@@ -1,0 +1,189 @@
+@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.RevistasViewModels.ContenidoViewModel
+@{
+    var botoneraModel = new BotoneraViewModel { Color1 = null };
+}
+@Html.Partial("_Botonera", botoneraModel)
+
+<!-- HEADER -->
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+            </div>
+        </div>
+    </div>
+</header>
+<!-- /HEADER -->
+<!-- CONTENIDO -->
+<article>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                <!-- Titulo -->
+                <h1>@Model.Titulo</h1>
+
+                <!-- Autores -->
+                <h4>
+                    @for (var index = 0; index < Model.Autores.Count; index++)
+                    {
+                        var autor = Model.Autores[index];
+                        if (index > 0)
+                        {
+                            <span>, </span>
+                        }
+                        <a href="@Url.Action("Autor", "Autores", new { Id = autor.AutorId })" target="_self" class="autores">@autor.Autor.Nombre</a>
+                    }
+                </h4>
+
+
+
+                <div id="share">
+                    <!-- Fecha -->
+                    <!-- #BeginDate format:fcSw1 -->@Model.FechaAlta.ToString("D")<!-- #EndDate -->
+                    <!-- Comentarios -->
+                    &nbsp;|&nbsp;&nbsp;<i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<a href="#disqus_thread"></a>
+
+                    <!-- Add This -->
+                    <div class="addthis_custom_sharing"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Texto -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="texto">
+                @Html.Raw(Model.Texto)
+            </div>
+        </div>
+    </div>
+</article>
+<!-- /CONTENIDO -->
+<!-- DISQUS -->
+<div class="container-fluid">
+    <div class="row" id="disqus">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div id="disqus_thread"></div>
+            <script>
+                /**
+                * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                * LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+                */
+                /*
+                var disqus_config = function () {
+                this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+                */
+                (function () { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+
+                    s.src = '//revistanotascpau.disqus.com/embed.js';
+
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Por favor, active JavaScript para ver los <a href="https://disqus.com/?ref_noscript" rel="nofollow">comentarios by Disqus.</a></noscript>
+        </div>
+    </div>
+</div>
+<!-- /DISQUS -->
+
+@Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer id=\"footer\"",
+    BreadCrumbItems = {
+        new BreadCrumbItem { Caption = "Home", Href = "/" },
+        new BreadCrumbItem { Caption = "Notas", Href = "/notas" },
+        new BreadCrumbItem { Caption = Model.Titulo, Href = "/notas/" + Model.Id }
+    }
+})
+
+@section scripts
+    {
+    <!-- Lightbox -->
+    <script src="/js/lightbox/js/lightbox.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var addToAll = false;
+            var gallery = true;
+            var titlePosition = 'inside';
+
+            $('#texto img').each(function () {
+                var $this = $(this);
+                var title = $this.prop('alt');
+                if (title) {
+                    var src = $this.attr('src');
+                    var width = $this.width();
+                    var parent = $this.parent();
+                    var float = $this.css('float');
+                    var figure = $('<figure></figure>')
+                        .css('marginLeft', $this.css('marginLeft'))
+                        .css('marginRight', $this.css('marginRight'))
+                        .css('marginTop', $this.css('marginTop'))
+                        .css('marginBottom', $this.css('marginBottom'))
+                        .css('float', float)
+                        .css('width', width);
+                    var div = $('<div></div>');
+                    var wrapper = null;
+
+                    $this.css('float', 'none');
+
+                    if (!parent.is('a')) {
+                        var a = $('<a href="#"></a>').attr('href', src).attr('data-title', title).attr('data-lightbox', 'album');
+
+                        wrapper = $this.wrap(a).parent();
+                        wrapper = wrapper.wrap(div).parent();
+                        wrapper = wrapper.wrap(figure).parent();
+                    }
+                    else {
+                        wrapper = $this.parent().wrap(div).parent();
+                        wrapper = wrapper.wrap(figure).parent();
+                    }
+
+                    var figcaption = $('<figcaption></figcaption>').text(title);
+                    wrapper.first().append(figcaption);
+                }
+            });
+        });
+    </script>
+
+
+    <!-- ADD THIS -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5720ff33ce483e1a"></script>
+
+    <!-- DISQUS -->
+    <script id="dsq-count-scr" src="//revistanotascpau.disqus.com/count.js" async></script>
+
+    <!-- Mixitup -->
+    <script src="/js/jquery.mixitup.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var filterList = {
+                init: function () {
+                    // MixItUp plugin
+                    // http://mixitup.io
+                    $('#portfoliolist')
+                        .mixItUp({
+                            selectors: {
+                                target: '.portfolio',
+                                filter: '.filter'
+                            },
+                            load: {
+                                filter: 'all'
+                            }
+                        });
+                }
+            };
+            // Run the show!
+            filterList.init();
+        });
+    </script>
+}

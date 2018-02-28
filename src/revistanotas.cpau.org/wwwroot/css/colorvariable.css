@@ -1,0 +1,132 @@
+﻿/* Body */
+
+a{
+	color:#ed008c;
+}
+
+a:hover,
+a:focus{
+	color:#000000;
+}
+.blanco a:{
+	color:#fff;
+}
+
+.blanco a:hover,
+.blanco a:focus{
+	color:#000000;
+}
+
+
+/* Botonera */
+
+.navbar{
+	background-color:#ed008c;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus{
+    color: #000000;
+}
+
+/* Header */
+
+header h1{
+	color:#ed008c;
+}
+
+
+/* Contenido */
+article .fa-stop{
+	color:#ed008c;
+}
+
+article .fa-circle{
+	color:#ed008c;
+}
+
+blockquote p{
+	border-top:1px solid #ed008c;
+	border-bottom:1px solid #ed008c;
+	color:#ed008c;
+}
+
+.custom-counter li::before {
+    background-color: #ed008c;
+}
+
+/* Seleccion */
+::-moz-selection {
+  background: #ed008c;
+}
+::selection {
+  background: #ed008c;
+}
+body {
+  webkit-tap-highlight-color: #ed008c;
+}
+
+/* SLIDER */
+
+.swiper-pagination-m .swiper-pagination-bullet {
+  background: #ed008c;
+}
+
+.swiper-pagination-m .swiper-pagination-bullet-active {
+  background: #ed008c;
+}
+
+.swiper-pagination-progress.swiper-pagination-m {
+  background: rgba(201, 0, 136, 0.5);
+}
+
+.swiper-pagination-progress.swiper-pagination-m .swiper-pagination-progressbar {
+  background: #ed008c;
+}
+
+.swiper-button-prev.swiper-button-m,
+.swiper-container-rtl .swiper-button-next.swiper-button-m {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23ed008c'%2F%3E%3C%2Fsvg%3E");
+}
+
+.swiper-button-next.swiper-button-m,
+.swiper-container-rtl .swiper-button-prev.swiper-button-m {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ed008c'%2F%3E%3C%2Fsvg%3E");
+}
+
+/* MixiTOP*/
+
+#filters li a.active {
+	background:#ed008c;
+}
+	
+.portfolio .label-bg {
+	background:#ed008c;
+}
+
+.portfolio .text-category {
+	color:#000000;
+}
+
+/* Print
+================================================== */
+
+@media print {
+	
+h4 {
+	color:#ed008c;
+}
+	
+h4 a {
+	color:#ed008c;
+}
+
+blockquote {
+	color:#ed008c;
+}
+
+blockquote p{
+	color:#ed008c;
+}
+
+}

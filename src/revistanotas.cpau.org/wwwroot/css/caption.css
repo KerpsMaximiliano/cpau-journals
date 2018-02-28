@@ -1,0 +1,74 @@
+.caption {
+	display: inline-block;
+	position: relative;
+	margin: 6px;
+}
+
+.caption img {
+	display: block;
+	max-width: 100%;
+}
+
+/* Side push (animate transforms) */
+.caption-4 {
+	overflow: hidden;
+	background: rgba(0,0,0,0.2);
+	-webkit-transition: background 0.3s ease-in-out;
+	-moz-transition: background 0.3s ease-in-out;
+	transition: background 0.3s ease-in-out;
+}
+
+.caption-4:hover {
+	background: rgba(0,0,0,0);
+}
+
+.caption-4 img {
+	-webkit-transition: -webkit-transform 0.3s ease-in-out;
+	-moz-transition: -moz-transform 0.3s ease-in-out;
+	transition: transform 0.3s ease-in-out;
+}
+
+.caption-4:hover img {
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	transform: translateX(100%);
+}
+
+.caption-4::before,
+.caption-4::after {
+	position: absolute;
+	width: 100%;
+	z-index: -1;
+	background: #cecece;
+	-webkit-transform: translateX(-30%);
+	-moz-transform: translateX(-30%);
+	transform: translateX(-30%);
+	-webkit-transition: -webkit-transform 0.3s ease-in-out;
+	-moz-transition: -moz-transform 0.3s ease-in-out;
+	transition: transform 0.3s ease-in-out;
+}
+
+.caption-4::before {
+	content: attr(data-title);
+	height: 30%;
+	color:#2B5162;
+	font-size: 36px;
+	font-weight: 300;
+	padding: 30px;
+}
+
+.caption-4::after {
+	content: attr(data-description);
+	top: 30%;
+	height: 70%;
+	color: #000;
+	font-size: 24px;
+	padding: 20px 30px;
+}
+
+.caption-4:hover::before,
+.caption-4:hover::after  {
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	transform: translateX(0);
+}

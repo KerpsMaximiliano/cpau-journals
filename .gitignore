@@ -1,0 +1,23 @@
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.obj
+*.pdb
+*.suo
+*.ReSharper.user
+
+.vs/
+v15/
+node_modules/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+src/revistanotas.cpau.org/yarn.lock
+src/packages/

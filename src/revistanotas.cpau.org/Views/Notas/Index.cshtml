@@ -1,0 +1,132 @@
+@using CPAU.RevistaNotas
+@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.NotasViewModels.IndexViewModel
+
+    @section css{
+        <!-- Caption CSS -->
+        <link href="/css/caption.css" rel="stylesheet">
+        <link href="/css/isotope.css" rel="stylesheet">
+    }
+
+    @{
+        var botoneraModel = new BotoneraViewModel { Color1 = null };
+    }
+    @Html.Partial("_Botonera", botoneraModel)
+
+    <!-- HEADER -->
+    <header class="intro" style="margin-top:50px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>NOTAS</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- /HEADER -->
+
+    <!-- CONTENIDO -->
+    <article id="content">
+        <div class="container-fluid">
+            <!-- Contenido -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Mixitup -->
+                    <div class="container">
+                        <div class="text-center">
+                            <!-- Filtros -->
+                            <ul id="filters" class="clearfix">
+                                <li><h4>Filtros:&nbsp;&nbsp;</h4></li>
+                                <li><a href="#" data-filter="*" class="active">Todos</a></li>
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <li><a href="#" data-filter=".@("f" + tag.Id)">@tag.Nombre</a></li>
+                                }
+                            </ul>
+                            <!-- /Filtros -->
+                        </div>
+
+                        <!-- Notas -->
+                        <div class="portfolioContenedor" style="padding:0 10px; margin: 0 auto;">
+                            @foreach (var item in Model.Items)
+                            {
+                                var filters = string.Join(" ", item.Tags.Select(x => "f" + x.Tag.Id));
+                                <div style="margin: 5px;" class="portfolio @filters" data-cat="@filters">
+                                    <div class="portfolio-wrapper">
+                                        @{
+                                            var target = string.IsNullOrEmpty(item.Url) ? Url.Action("Nota", new { item.Id }) : item.Url;
+                                        }
+                                        <a href="@target" target="@((CPAU.RevistaNotas.Data.UrlTarget)item.UrlTarget)">
+                                            <img style="width: 400px; height: 300px;" class="img-gray" src="@Url.Media(item.Imagen)" alt="" />
+                                            <div class="label">
+                                                <div class="label-text">
+                                                    <span class="text-title">@item.Titulo</span>
+                                                    <span class="text-category">@string.Join(", ", item.Autores.Select(x => x.Autor.Nombre))</span>
+                                                </div>
+                                                <div class="label-bg"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                            }
+                        </div>
+                        <!-- /Notas -->
+                    </div>
+                    <!-- /Mixitup -->
+                </div>
+            </div>
+            <!-- /Contenido -->
+        </div>
+    </article>
+    <!-- /CONTENIDO -->
+
+    @Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer id=\"footer\"",
+    BreadCrumbItems = {
+        new BreadCrumbItem { Caption = "Home", Href = "/" },
+        new BreadCrumbItem { Caption = "Notas", Href = "/notas" }
+    }
+})
+
+    @section scripts
+        {
+        <!-- Isotope -->
+        <script src="/js/isotope.pkgd.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.portfolioContenedor').isotope({
+                    filter: '*',
+                    resizable: false,
+                    masonry: {
+                        columnWidth: 10,
+                        isFitWidth: true
+                    },
+                    animationOptions: {
+                        duration: 750,
+                        easing: 'linear',
+                        queue: false
+                    }
+                });
+
+                $('#filters a')
+                    .click(function () {
+                        $('#filters .active').removeClass('active');
+                        $(this).addClass('active');
+
+                        var selector = $(this).attr('data-filter');
+                        $('.portfolioContenedor').isotope({
+                            filter: selector,
+                            animationOptions: {
+                                duration: 750,
+                                easing: 'linear',
+                                queue: false
+                            }
+                        });
+                        return false;
+                    });
+            });
+        </script>
+    }

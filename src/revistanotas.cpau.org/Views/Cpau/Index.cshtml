@@ -1,0 +1,40 @@
+@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.HomeViewModels.CpauViewModel
+@{
+    var botoneraModel = new BotoneraViewModel { Color1 = null };
+}
+@Html.Partial("_Botonera", botoneraModel)
+
+<!-- HEADER -->
+<header class="intro" style="margin-top:50px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>CPAU</h1>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- /HEADER -->
+<!-- CONTENIDO -->
+<article>
+    <div class="container-fluid">
+        <!-- Texto -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="texto">
+                @Html.Raw(Model?.Texto)
+            </div>
+        </div>
+    </div>
+</article>
+<!-- /CONTENIDO -->
+
+@Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer",
+    BreadCrumbItems = {
+        new BreadCrumbItem { Caption = "Home", Href = "/" },
+        new BreadCrumbItem { Caption = "CPAU", Href = "/cpau" }
+    }
+})

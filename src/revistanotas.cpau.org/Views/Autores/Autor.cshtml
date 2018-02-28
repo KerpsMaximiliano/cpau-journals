@@ -1,0 +1,170 @@
+﻿@using CPAU.RevistaNotas
+@using CPAU.RevistaNotas.Configuration
+@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.AutoresViewModel.AutorViewModel
+    @{
+        var botoneraModel = new CPAU.RevistaNotas.Models.BotoneraViewModel { Color1 = Defaults.BackgroundColor };
+    }
+    @Html.Partial("_Botonera", botoneraModel)
+
+    <!-- HEADER -->
+    <header class="intro" style="margin-top:50px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Autor</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- /HEADER -->
+    <!-- CONTENIDO -->
+    <article id="content">
+        <div class="container-fluid">
+
+            <!-- AUTOR -->
+            <!-- Escritor -->
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <div>
+                        <img class="img-circle center-block" src="@Url.Media(Model.ImagenPerfil)" width="150" height="150" alt="" />
+                        <h3 style="font-weight:600; text-align:center;">@Model.Nombre</h3>
+                        <h4 style="font-weight:300; text-align:center;">@Html.Raw(Model.ShortBio)</h4>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /Escritor -->
+            <!-- Biograf&iacute;a -->
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    @Html.Raw(Model.Bio)
+                </div>
+            </div>
+            <!-- /Biograf&iacute;a -->
+            <!-- /AUTOR -->
+            <!-- Contenido -->
+            <div class="row" style="margin-top:50px">
+                <div class="col-lg-12">
+
+
+                    <!-- Mixitup -->
+                    <div class="container">
+
+                        <div class="text-center">
+
+                            <h3>Contenidos</h3>
+                            <p>Estos son los artículos del autor:</p>
+                        </div>
+
+                        <!-- Notas -->
+                        <div id="portfoliolist">
+
+                            <!-- Filtro: Editorial -->
+                            @foreach (var contenido in Model.Contenidos)
+                            {
+                                var codigoContenido = contenido.Contenido.Id.ToString() + "-" + CPAU.RevistaNotas.Utils.SeName(contenido.Contenido.Titulo);
+
+                                <div class="portfolio f1">
+                                    <div class="portfolio-wrapper">
+                                        @if (contenido.Contenido.EsNota)
+                                        {
+                                            <a href="@Url.Action("Nota", "Notas", new { contenido.Contenido.Id })">
+                                                <img style="width: 431px; height: 323px;" class="img-gray" src="@Url.Media(contenido.Contenido.Imagen)" alt="" />
+                                                <div class="label">
+                                                    <div class="label-text">
+                                                        <span class="text-title">@contenido.Contenido.Titulo</span>
+                                                        <span class="text-category">@string.Join(", ", contenido.Contenido.Autores.Select(x => x.Autor.Nombre))</span>
+                                                    </div>
+                                                    <div class="label-bg"></div>
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+
+                                            <a href="@Url.Action("Contenido", "Revistas", new { contenido.Contenido.Revistas.FirstOrDefault().Revista.Numero, codigoContenido })">
+                                                <img style="width: 431px; height: 323px;" class="img-gray" src="@Url.Media(contenido.Contenido.Imagen)" alt="" />
+                                                <div class="label">
+                                                    <div class="label-text">
+                                                        <span class="text-title">@contenido.Contenido.Titulo</span>
+                                                        <span class="text-category">@string.Join(", ", contenido.Contenido.Autores.Select(x => x.Autor.Nombre))</span>
+                                                    </div>
+                                                    <div class="label-bg"></div>
+                                                </div>
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <!-- /Notas -->
+                    </div>
+                    <!-- /Mixitup -->
+                </div>
+            </div>
+            <!-- /Contenido -->
+        </div>
+    </article>
+    <!-- /CONTENIDO -->
+
+    @Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer id=\"footer\"",
+    BreadCrumbItems = {
+        new BreadCrumbItem { Caption = "Home", Href = "/" },
+        new BreadCrumbItem { Caption = "Autores", Href = "/autores" },
+        new BreadCrumbItem { Caption = Model.Nombre, Href = "/autores/" + Model.Id }
+    }
+})
+
+    @section scripts
+        {
+        <!-- Mixitup -->
+        <script src="/js/jquery.mixitup.min.js"></script>
+
+        <script type="text/javascript">
+            $(function () {
+                var filterList = {
+                    init: function () {
+                        // MixItUp plugin
+                        // http://mixitup.io
+                        $('#portfoliolist').mixItUp({
+                            selectors: {
+                                target: '.portfolio',
+                                filter: '.filter'
+                            },
+                            load: {
+                                filter: 'all'
+                            }
+                        });
+                    }
+                };
+                // Run the show!
+                filterList.init();
+            });
+        </script>
+
+        @*
+            <!-- STICKYMOJO -->
+            <script src="js/stickyMojo.js"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    $('#sidebar').stickyMojo({ footerID: '#footer', contentID: '#content' });
+
+                    $('.ancla').click(function () {
+                        var link = $(this);
+                        var anchor = link.attr('href');
+                        $('html, body').stop().animate({
+                            scrollTop: jQuery(anchor).offset().top
+                        }, 2000);
+                        return false;
+                    });
+                });
+            </script>
+        *@
+    }

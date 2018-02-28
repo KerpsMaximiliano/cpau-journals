@@ -1,0 +1,153 @@
+﻿@using CPAU.RevistaNotas.Models
+@model CPAU.RevistaNotas.Models.ContactanosViewModel.IndexViewModel
+@section css
+{
+    <style>
+        #google-map {
+            height: 350px;
+        }
+    </style>
+}
+@{
+    var botoneraModel = new CPAU.RevistaNotas.Models.BotoneraViewModel { Color1 = null };
+}
+@Html.Partial("_Botonera", botoneraModel)
+
+<!-- HEADER -->
+<header class="intro" style="margin-top:50px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Cont&aacute;ctanos</h1>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- /HEADER -->
+<!-- CONTENIDO -->
+<article>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>Desde este espacio puede con contactarse, haciendo consultas, comentarios o remitiendo su valioso aporte, que será apropiadamente considerado por nuestra editorial.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                @if (Model.MessageSent)
+                {
+                    <p>Su consulta ha sido enviada.</p>
+                }
+                else
+                {
+                    <h3 style="text-align:center;">Formulario</h3>
+                    <div id="contact-form" class="contact-details" style="float: left;">
+                        <form asp-controller="Contactanos" asp-action="Index" method="post" role="form">
+                            <p class="contact-name">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <input asp-for="NombresYApellidos" placeholder="Nombres y Apellidos (*):" />
+                            </p>
+
+                            <p class="contact-name">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-phone fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <input asp-for="Telefono" placeholder="Tel&eacute;fono (*):" />
+                            </p>
+
+                            <p class="contact-email">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <input asp-for="CorreoElectronico" placeholder="Correo Electr&oacute;nico (*):" />
+                            </p>
+
+                            <p>
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-comment fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <textarea asp-for="Mensaje" placeholder="Mensaje (*):" data-minlength="20"></textarea>
+                            </p>
+
+                            <div style="width: 100%; margin: 40px 0 0 12%; float: none; text-align: center;">
+                                <div class="g-recaptcha" data-sitekey="6LerzQ4UAAAAAEO9KEtmSp4cK9kYbhPEkMVzNnnX"></div>
+                            </div>
+
+                            <p class="contact-submit">
+                                <input type="submit" class="submit" value="Enviar" id="submit-button" />
+                            </p>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12" style="padding:50px 0 0 0; margin:50px 0 0 0; text-align:center; border-top:1px solid #ccc;">
+
+                <h3>Ubicaci&oacute;n</h3>
+
+                <p>CPAU - Consejo Profesional de Arquitectura y Urbanismo | 25 de Mayo 482 - (C1002ABJ) | Ciudad Autonoma de Buenos Aires - Argentina</p>
+
+                <div id="google-map" class="wow fadeIn" data-latitude="-34.602132" data-longitude="-58.371279" data-wow-duration="1000ms" data-wow-delay="400ms" style="height: 350px;"></div>
+
+            </div>
+        </div>
+    </div>
+</article>
+<!-- /CONTENIDO -->
+
+@Html.Partial("_Footer", new FooterViewModel
+{
+    ShowBreadCrumb = true,
+    TagName = "footer",
+    BreadCrumbItems = {
+        new BreadCrumbItem { Caption = "Home", Href = "/" },
+        new BreadCrumbItem { Caption = "Contáctanos", Href = "/contactanos" }
+    }
+})
+
+@section scripts
+{
+    <!-- reCCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
+    <!--<script src="_include/js/gm/wow.min.js"></script>-->
+    <script src="/js/gm/mousescroll.js"></script>
+    <!--<script src="_include/js/gm/smoothscroll.js"></script>-->
+    <script language="javascript" type="text/javascript">
+        //Google Map
+        var latitude = $('#google-map').data('latitude');
+        var longitude = $('#google-map').data('longitude');
+        function initMap() {
+            var myLatlng = new google.maps.LatLng(latitude, longitude);
+            var mapOptions = {
+                zoom: 14,
+                scrollwheel: false,
+                center: myLatlng
+            };
+            var map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
+            var contentString = '';
+            var infowindow = new google.maps.InfoWindow({
+                content: '<div class="map-content"><ul class="address">' + $('.address').html() + '</ul></div>'
+            });
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+        };
+    </script>
+    <!--googlemaps-->
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB7U59c21_-Nlz3BUFsv8sj0hyrZhmjRuE&callback=initMap"></script>
+}
