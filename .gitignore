@@ -21,3 +21,5 @@ bld/
 
 src/revistanotas.cpau.org/yarn.lock
 src/packages/
+src/revistanotas.cpau.org/appsettings.Production.json
+src/revistanotas.cpau.org/appsettings.Development.json
