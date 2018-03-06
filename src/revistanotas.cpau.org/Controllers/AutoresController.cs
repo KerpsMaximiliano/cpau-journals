@@ -41,6 +41,9 @@ namespace CPAU.RevistaNotas.Controllers
                 .ThenInclude(x => x.Contenido)
                 .ThenInclude(x => x.Revistas)
                 .ThenInclude(x => x.Revista)
+                .Include(x => x.Contenidos)
+                .ThenInclude(x => x.Contenido)
+                .ThenInclude(x => x.Autores)
                 .SingleOrDefault(w => w.Id == id);
             var model = Mapper.Map<AutorViewModel>(data);
             return View(model);

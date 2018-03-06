@@ -2,8 +2,18 @@
 
 namespace CPAU.RevistaNotas.Models.AutoresViewModel
 {
-    public class AutorViewModel : Data.Autor
+    public class AutorViewModel
     {
-        public new List<RevistasViewModels.ContenidoAutorViewModel> Contenidos { get; set; }
+        public int Id { get; set; }
+
+        public string Nombre { get; set; }
+
+        public string ShortBio { get; set; }
+
+        public string Bio { get; set; }
+
+        public string ImagenPerfil { get; set; }
+
+        public List<RevistasViewModels.ContenidoAutorViewModel> Contenidos { get; set; }
     }
 }
