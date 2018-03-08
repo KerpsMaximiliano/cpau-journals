@@ -41,6 +41,7 @@ namespace CPAU.RevistaNotas
             services.AddOptions();
             services.Configure<RevistaNotasConfiguration>(Configuration.GetSection("RevistaNotas"));
             services.Configure<SmtpConfiguration>(Configuration.GetSection("Smtp"));
+            services.Configure<GoogleReCaptchaConfiguration>(Configuration.GetSection("GoogleReCaptcha"));
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddAutoMapper(typeof(Configuration.AutoMapperProfile));

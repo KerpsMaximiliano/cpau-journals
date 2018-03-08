@@ -1,12 +1,15 @@
 ﻿@using CPAU.RevistaNotas.Models
 @model CPAU.RevistaNotas.Models.ContactanosViewModel.IndexViewModel
 @section css
-{
+    {
     <style>
         #google-map {
             height: 350px;
         }
     </style>
+
+    <!-- reCCAPTCHA -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 }
 @{
     var botoneraModel = new CPAU.RevistaNotas.Models.BotoneraViewModel { Color1 = null };
@@ -78,12 +81,13 @@
                             </p>
 
                             <div style="width: 100%; margin: 40px 0 0 12%; float: none; text-align: center;">
-                                <div class="g-recaptcha" data-sitekey="6LerzQ4UAAAAAEO9KEtmSp4cK9kYbhPEkMVzNnnX"></div>
+                                <div class="g-recaptcha" data-sitekey="6LeE3hMTAAAAAMeP-YyRCvuPcg09_yDZlbqfEFU5"></div>
                             </div>
 
                             <p class="contact-submit">
                                 <input type="submit" class="submit" value="Enviar" id="submit-button" />
                             </p>
+
                         </form>
                     </div>
                 }
@@ -110,16 +114,13 @@
     ShowBreadCrumb = true,
     TagName = "footer",
     BreadCrumbItems = {
-        new BreadCrumbItem { Caption = "Home", Href = "/" },
-        new BreadCrumbItem { Caption = "Contáctanos", Href = "/contactanos" }
-    }
+new BreadCrumbItem { Caption = "Home", Href = "/" },
+new BreadCrumbItem { Caption = "Contáctanos", Href = "/contactanos" }
+}
 })
 
 @section scripts
-{
-    <!-- reCCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-
+    {
     <!--<script src="_include/js/gm/wow.min.js"></script>-->
     <script src="/js/gm/mousescroll.js"></script>
     <!--<script src="_include/js/gm/smoothscroll.js"></script>-->
