@@ -82,6 +82,10 @@
 
                             <div style="width: 100%; margin: 40px 0 0 12%; float: none; text-align: center;">
                                 <div class="g-recaptcha" data-sitekey="6LeE3hMTAAAAAMeP-YyRCvuPcg09_yDZlbqfEFU5"></div>
+                                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                                {
+                                <div class="has-error">@Model.ErrorMessage</div>
+                                }
                             </div>
 
                             <p class="contact-submit">

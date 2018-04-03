@@ -1,5 +1,6 @@
 @using CPAU.RevistaNotas
 @using CPAU.RevistaNotas.Models
+@using CPAU.RevistaNotas.Models.AutoresViewModel
 @model CPAU.RevistaNotas.Models.RevistasViewModels.RevistaViewModel
 @section css{
     @if (!string.IsNullOrEmpty(Model.Style))
@@ -156,27 +157,31 @@
                     <!-- Swiper -->
                     <div class="swiper-container scautores swiper2">
                         <div class="swiper-wrapper">
-                            @foreach (var autor in Model.Contenidos.SelectMany(x => x.Contenido.Autores).Select(a => a.Autor).Distinct())
-                            {
-                                <div class="swiper-slide ssautores">
-                                    <div>
-                                        <a href="@Url.Action("Autor", "Autores", new { autor.Id })">
-                                            @if (string.IsNullOrEmpty(autor.ImagenPerfil))
-                                            {
-                                                <span class="fa-stack fa-lg" style="font-size:80px;">
-                                                    <i class="fa fa-circle fa-stack-2x fa-inverse" style="color:#ccc;"></i>
-                                                    <i class="fa fa-user fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <img class="img-circle center-block" src="@Url.Media(autor.ImagenPerfil)" width="150" height="150" alt="" />
-                                            }
+                            @{
+                                var autores = Model.Contenidos.SelectMany(x => x.Contenido.Autores).Select(a => a.Autor).ToList();
+                                var distinctAutores = autores.Distinct(new AutorViewModelEqualityComparer());
+                                foreach (var autor in distinctAutores)
+                                {
+                                    <div class="swiper-slide ssautores">
+                                        <div>
+                                            <a href="@Url.Action("Autor", "Autores", new {autor.Id})">
+                                                @if (string.IsNullOrEmpty(autor.ImagenPerfil))
+                                                {
+                                                    <span class="fa-stack fa-lg" style="font-size: 80px;">
+                                                        <i class="fa fa-circle fa-stack-2x fa-inverse" style="color: #ccc;"></i>
+                                                        <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <img class="img-circle center-block" src="@Url.Media(autor.ImagenPerfil)" width="150" height="150" alt="" />
+                                                }
 
-                                        </a>
-                                        <h4 style="text-align: center;">@autor.Nombre</h4>
+                                            </a>
+                                            <h4 style="text-align: center;">@autor.Nombre</h4>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
                         </div>
                         <!-- Add Pagination -->

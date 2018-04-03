@@ -19,5 +19,7 @@ namespace CPAU.RevistaNotas.Models.ContactanosViewModel
         public bool MessageSent { get; set; }
 
         public string RecaptchaSiteKey { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

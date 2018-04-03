@@ -15,6 +15,7 @@ namespace CPAU.RevistaNotas.Controllers
     {
         private readonly ILogger _logger;
         private readonly IHostingEnvironment _environment;
+        private readonly RevistaNotasConfiguration _revistaNotasConfiguration;
         private readonly SmtpConfiguration _smtpConfiguration;
         private readonly GoogleReCaptchaConfiguration _googleReCaptchaConfiguration;
 
@@ -22,12 +23,14 @@ namespace CPAU.RevistaNotas.Controllers
             ILogger<ContactanosController> logger,
             IHostingEnvironment environment,
             Data.ApplicationDbContext context,
+            IOptions<RevistaNotasConfiguration> revistaNotasConfiguration,
             IOptions<SmtpConfiguration> smtpConfiguration,
             IOptions<GoogleReCaptchaConfiguration> googleReCaptchaConfiguration)
         {
             _logger = logger;
             _environment = environment;
             _smtpConfiguration = smtpConfiguration.Value;
+            _revistaNotasConfiguration = revistaNotasConfiguration.Value;
             _googleReCaptchaConfiguration = googleReCaptchaConfiguration.Value;
         }
 
@@ -48,6 +51,8 @@ namespace CPAU.RevistaNotas.Controllers
         [HttpPost]
         public IActionResult Index(Models.ContactanosViewModel.IndexViewModel model)
         {
+            model.RecaptchaSiteKey = _googleReCaptchaConfiguration.SiteKey;
+
             if (ModelState.IsValid)
             {
                 if (Utils.ReCaptchaPassed(
@@ -72,6 +77,7 @@ namespace CPAU.RevistaNotas.Controllers
                     }
 
                     body = body.Replace("{$host}", Request.Host.Value);
+                    body = body.Replace("{$mediahost}", _revistaNotasConfiguration.MediaBaseUrl);
                     body = body.Replace("{$name}", model.NombresYApellidos);
                     body = body.Replace("{$email}", model.CorreoElectronico);
                     body = body.Replace("{$telephone}", model.Telefono);
@@ -93,12 +99,17 @@ namespace CPAU.RevistaNotas.Controllers
                     }
 
                     model.MessageSent = true;
-                    return View(model);
                 }
+                else
+                {
+                    model.ErrorMessage = "Captcha inválido.";
+                    model.MessageSent = false;
+                }
+
+                return View(model);
             }
 
             model.MessageSent = false;
-            model.RecaptchaSiteKey = _googleReCaptchaConfiguration.SiteKey;
             return View(model);
         }
     }
