@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\boot-client.ts" />
+    <Content Remove="wwwroot\boot-server.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="MailKit" Version="2.0.1" />
@@ -39,6 +44,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\lightbox\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\boot-client.ts" />
+    <TypeScriptCompile Include="wwwroot\boot-server.ts" />
   </ItemGroup>
 
   <ItemGroup>
