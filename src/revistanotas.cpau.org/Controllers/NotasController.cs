@@ -38,6 +38,7 @@ namespace CPAU.RevistaNotas.Controllers
             var tags = context.Tags
                 .AsNoTracking()
                 .Where(w => w.EsNota)
+                .OrderBy(o => o.Nombre)
                 .ToList();
 
             var model = new Models.NotasViewModels.IndexViewModel();
