@@ -55,7 +55,8 @@
 <!-- CONTENIDO -->
 <article id="content">
     <div class="container-fluid">
-
+        @if ((!string.IsNullOrEmpty(Model.Url)) || (!string.IsNullOrEmpty(Model.IssuUrl)))
+        {
         <!-- Visualizaci&oacute;n -->
         <div class="row">
             <div class="col-lg-12" style="margin:0; padding:0;">
@@ -66,12 +67,18 @@
 
                     <div class="btn-group btn-group-lg sidebar" role="group" aria-label="...">
                         <button type="button" class="ancla btn btn-default active"><a href="#titulo2" class="ancla" style="color:#000; text-decoration:none;"><i class="fa fa-globe" aria-hidden="true"></i> Web</a></button>
+                        @if (!string.IsNullOrEmpty(Model.Url))
+                        {
                         <button type="button" class="btn btn-default" onclick="window.open('https://static.cpau.org/revistanotas/fpb/@Model.Numero/index.html');">
                             <img src="@Url.Media("/revistanotas/flippingbook-black.png")" alt="" style="padding-bottom:3px;" /> Flipping Book
                         </button>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Url))
+                        {
                         <button type="button" class="btn btn-default" onclick="window.open('https://static.cpau.org/revistanotas/fpb/@Model.Numero/files/assets/common/downloads/publication.pdf');">
                             <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Descargar PDF
                         </button>
+                        }
                         @if (!string.IsNullOrEmpty(Model.IssuUrl))
                         {
                             <button type="button" class="btn btn-default" onclick="window.open('@Model.IssuUrl');">
@@ -85,6 +92,7 @@
             </div>
         </div>
         <!-- /Visualizaci&oacute;n -->
+        }
 
         <div id="titulo2" style="margin-top:-50px"></div>
 
